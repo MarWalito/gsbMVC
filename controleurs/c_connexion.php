@@ -1,4 +1,5 @@
-﻿<?php
+﻿//Test pour Alan
+<?php
 if(!isset($_REQUEST['action'])){
 	$_REQUEST['action'] = 'demandeConnexion';
 }
