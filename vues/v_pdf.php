@@ -1,7 +1,7 @@
 <?php
   session_start();
-  include "../include/fpdf/fpdf.php"  ;
-  
+  require_once('../include/fpdf/fpdf.php')  ;
+  include('../controleurs/c_etatFrais.php');
 
 // Création de la class PDF
 class PDF extends FPDF {
@@ -81,42 +81,43 @@ $pdf->SetTextColor(0);
 
 // Position ordonnée = $position_entete+hauteur de la cellule d'en-tête
 $position_detail = 58;
-$requete = "SELECT * FROM FraisForfait";
-$result->($requete);
-while ($result->fetch()) {
+// $requete = "SELECT * FROM FraisForfait";
+
+$fhf = $result->getLesFraisHorsForfait($idVisiteur,$mois);
+while($fhf->fetch()) {
     // position abcisse de la colonne 1 (10mm du bord)
     $pdf->SetY($position_detail);
     $pdf->SetX(5);
-    $pdf->MultiCell(25,8,utf8_decode($article['libelle']),1,'C');
+    $pdf->MultiCell(25,8,utf8_decode($data['libelle']),1,'C');
     // position abcisse de la colonne 2  
     $pdf->SetY($position_detail);
     $pdf->SetX(30); 
-    $pdf->MultiCell(50,8,utf8_decode($article['libelle']),1,'C');
+    $pdf->MultiCell(50,8,utf8_decode($data['libelle']),1,'C');
     // position abcisse de la colonne 3
     $pdf->SetY($position_detail);
     $pdf->SetX(80); 
-    $pdf->MultiCell(50,8,utf8_decode($article['libelle']),1,'C');
+    $pdf->MultiCell(50,8,utf8_decode($data['libelle']),1,'C');
     // position abcisse de la colonne 4
     $pdf->SetY($position_detail);
     $pdf->SetX(130); 
-    $pdf->MultiCell(50,8,utf8_decode($article['libelle']),1,'C');
+    $pdf->MultiCell(50,8,utf8_decode($data['libelle']),1,'C');
     // position abcisse de la colonne 5
     $pdf->SetY($position_detail);
     $pdf->SetX(180); 
-    $pdf->MultiCell(30,8,utf8_decode($article['libelle']),1,'C');
+    $pdf->MultiCell(30,8,utf8_decode($data['libelle']),1,'C');
     // position abcisse de la colonne 6
     $pdf->SetY($position_detail);
     $pdf->SetX(210); 
-    $pdf->MultiCell(30,8,utf8_decode($article['libelle']),1,'C');
+    $pdf->MultiCell(30,8,utf8_decode($data['libelle']),1,'C');
     // position abcisse de la colonne 7
-    $calculTTC = calculTTC($article['QuantiteStock'], $article['PrixUnitaireHorsTaxe'], $article['TVA']);
+    $calculTTC = calculTTC($data['QuantiteStock'], $data['PrixUnitaireHorsTaxe'], $data['TVA']);
     $pdf->SetY($position_detail);
     $pdf->SetX(240); 
     $pdf->MultiCell(30,8,utf8_decode($calculTTC),1,'C');
     // position abcisse de la colonne 8
     $pdf->SetY($position_detail);
     $pdf->SetX(270); 
-    $pdf->MultiCell(25,8,utf8_decode($article['TVA']),1,'C');
+    $pdf->MultiCell(25,8,utf8_decode($data['TVA']),1,'C');
     
     // on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)  
     $position_detail += 8; 
