@@ -26,6 +26,13 @@ switch($action){
 		}
 		break;
 	}
+	case 'deconnexion':{
+        $id = $_SESSION['idVisiteur'];
+        deconnecter();
+        unset($_SESSION);
+        header('Location: index.php');
+        break;
+    }
 	default :{
 		include("vues/v_connexion.php");
 		break;
