@@ -5,13 +5,13 @@
       <div class="corpsForm">
          
       <p>
-	 
+        
         <label for="lstMois" accesskey="n">Mois : </label>
         <select id="lstMois" name="lstMois">
             <?php
 			foreach ($lesMois as $unMois)
 			{
-			    $mois = $unMois['mois'];
+			  $mois = $unMois['mois'];
 				$numAnnee =  $unMois['numAnnee'];
 				$numMois =  $unMois['numMois'];
 				if($mois == $moisASelectionner){

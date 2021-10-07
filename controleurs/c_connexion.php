@@ -10,23 +10,25 @@ switch($action){
 		break;
 	}
 	case 'valideConnexion':{
-		$login = $_REQUEST['login'];
-		$mdp = $_REQUEST['mdp'];
-		$visiteur = $pdo->getInfosVisiteur($login,$mdp);
-		if(!is_array( $visiteur)){
-			ajouterErreur("Login ou mot de passe incorrect");
-			include("vues/v_erreurs.php");
-			include("vues/v_connexion.php");
-		}
-		else{
-			$id = $visiteur['id'];
-			$nom =  $visiteur['nom'];
-			$prenom = $visiteur['prenom'];
-			connecter($id,$nom,$prenom);
-			include("vues/v_sommaire.php");
-		}
-		break;
-	}
+        $_SESSION = array();
+        $login = $_REQUEST['login'];
+        $mdp = $_REQUEST['mdp'];
+        $visiteur = $pdo->getInfosVisiteurpublic($login,$mdp);
+        if(!is_array( $visiteur)){
+            ajouterErreur("Login ou mot de passe incorrect");
+            include("vues/v_erreurs.php");
+            include("vues/v_connexion.php");
+        }
+        else{
+            $id = $visiteur['id'];
+            $nom =  $visiteur['nom'];
+            $prenom = $visiteur['prenom'];
+            $statut = $visiteur['statut'];
+            connecter($id,$nom,$prenom,$statut);
+            include("vues/v_sommaire.php");
+        }
+        break;
+    }
 	case 'deconnexion':{
         $id = $_SESSION['idVisiteur'];
         deconnecter();
