@@ -56,12 +56,12 @@
           }
 		?>
     </table>
-    <form action="../vues/v_pdf.php" method="POST">
-            <button class="acheter_bouton" style="width=20%";>Générer PDF</button>
+    <form action="./vues/v_pdf.php" method="post">
+      <input type="submit" value="Générer le PDF">
     </form>
   </div>
   </div>
- 
+
 
 
 
