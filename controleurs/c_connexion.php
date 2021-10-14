@@ -1,4 +1,4 @@
-﻿//Test pour Alan
+﻿
 <?php
 if(!isset($_REQUEST['action'])){
 	$_REQUEST['action'] = 'demandeConnexion';
@@ -25,7 +25,12 @@ switch($action){
             $prenom = $visiteur['prenom'];
             $statut = $visiteur['statut'];
             connecter($id,$nom,$prenom,$statut);
-            include("vues/v_sommaire.php");
+            if ($statut == 'C') {
+				include 'vues/v_sommairecomptable.php';
+			} 
+			else {
+				include 'vues/v_sommaire.php';
+			}
         }
         break;
     }

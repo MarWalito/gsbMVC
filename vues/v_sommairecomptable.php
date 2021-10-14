@@ -1,5 +1,5 @@
-﻿    <!-- Division pour le sommaire -->
-    <div id="menuGauche">
+   <!-- Division pour le sommaire -->
+   <div id="menuGauche">
      <div id="infosUtil">
     
         <h2>
@@ -9,7 +9,7 @@
       </div>  
         <ul id="menuList">
 			<li >
-				  Visiteur :<br>
+				  Comptable :<br>
 				<?php echo $_SESSION['prenom']."  ".$_SESSION['nom']. " ". $_SESSION['statut'] ?>
 			</li>
            <li class="smenu">
