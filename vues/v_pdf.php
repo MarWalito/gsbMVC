@@ -2,7 +2,7 @@
   session_start();
   include "../include/fpdf/fpdf.php";
   include "../include/class.pdogsb.inc.php";
-  $bdd = new PDO('mysql:host=172.16.203.203;dbname=gsbV2;charset=utf8', 'sio', 'slam'); 
+  $bdd = new PDO('mysql:host=172.16.203.202;dbname=gsbV2;charset=utf8', 'sio', 'slam'); 
   if($bdd){
     $user = $_SESSION['idVisiteur'];
 

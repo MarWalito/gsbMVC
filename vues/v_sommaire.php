@@ -10,7 +10,7 @@
         <ul id="menuList">
 			<li >
 				  Visiteur :<br>
-				<?php echo $_SESSION['prenom']."  ".$_SESSION['nom']. " ". $_SESSION['role'] ?>
+				<?php echo $_SESSION['prenom']."  ".$_SESSION['nom']. " ". $_SESSION['statut'] ?>
 			</li>
            <li class="smenu">
               <a href="index.php?uc=gererFrais&action=saisirFrais" title="Saisie fiche de frais ">Saisie fiche de frais</a>
