@@ -2,73 +2,68 @@
   session_start();
   include "../include/fpdf/fpdf.php";
   include "../include/class.pdogsb.inc.php";
-  $bdd = new PDO('mysql:host=172.16.203.203;dbname=gsbV2;charset=utf8', 'sio', 'slam'); 
-  if($bdd){
+  $bdd = new PDO('mysql:host=localhost;dbname=gsbv2;charset=utf8', 'root', '');
+  if ($bdd) {
     $user = $_SESSION['idVisiteur'];
-
     $PDF = new fpdf();
     $PDF->AddPage();
     $PDF->SetFont("Arial","B",16);
     $PDF->SetTextColor(0,0,0);
-    $PDF->MultiCell(0, 25, "Fiche de frais du client :\n " . $_SESSION['idVisiteur'], 1, "C", 0);
+    $PDF->MultiCell(0,10,utf8_decode("Fiche de frais hors forfait"),0,'C',0);
 
-    $PDF->Image("../images/logo.jpg", 150, 15, 40, 40);
-
-    $position = 100; 
-    $requete2 = $bdd->query("SELECT * FROM Visiteur WHERE login = '$user';");
+    $position = 40;
+    $req = $bdd->query("SELECT id FROM Visiteur WHERE id = '$user';");
 
     $PDF->SetTextColor(0,0,0);
 
     $PDF->SetFont("Arial","B",16);
-    $PDF->SetY($position-5);
+    $PDF->SetY($position-8);
     $PDF->SetX(15);
     $PDF->MultiCell(60,8,utf8_decode("Date"),1,'C');
 
-    $PDF->SetY($position-5);
+    $PDF->SetY($position-8);
     $PDF->SetX(75);
     $PDF->MultiCell(60,8,utf8_decode("Libellé"),1,'C');
 
-    $PDF->SetY($position-5);
+    $PDF->SetY($position-8);
     $PDF->SetX(135);
     $PDF->MultiCell(60,8,utf8_decode("Montant"),1,'C');
 
-    $PDF->SetY($position+30);
-    $PDF->SetX(15);
-    $PDF->MultiCell(60,8,utf8_decode("Prix Total"),1,'C');                     
-
     $PDF->SetTextColor(0,0,0);
 
-    while ($donne = $requete2->fetch()) {
-      $idProduit = $donne['idProduit'];
-      $select = $bdd->query("SELECT * FROM LigneFraisForfait WHERE idVisiteur = '$idVisiteur';");
-      $donneesUser = $select->fetch();
-      $PDF->SetFont("Arial","I",16);
+    //foreach ($lesFraisHorsForfait as $donneesVisiteur){
 
-      $PDF->SetY($position);
-      $PDF->SetX(15);
-      $PDF->MultiCell(60,8,utf8_decode($donneesUser['idVisiteur']),1,'C');
 
-      $PDF->SetY($position);
-      $PDF->SetX(75);
-      $PDF->MultiCell(60,8,utf8_decode($donneesUser['mois']),1,'C');
 
-      $PDF->SetY($position);
-      $PDF->SetX(135);
-      $PDF->MultiCell(60,8,utf8_decode($donneesUser['idFraisForfait']."e"),1,'C');
+      
+    $mont = $req->fetch();
 
-      $PDF->SetY($position);
-      $PDF->SetX(195);
-      $PDF->MultiCell(60,8,utf8_decode($donneesUser['quantite']),1,'C');
-      $position += 8;
-    }
+    $id = $mont['id'];
+    $select = $bdd->query("SELECT * FROM LigneFraisHorsForfait WHERE idVisiteur = '$id';");
+    $donneesVisiteur = $select->fetch();
+
+    $PDF->SetFont("Arial","I",16);
+
+    $PDF->SetY($position);
+    $PDF->SetX(15);
+    $PDF->MultiCell(60,8,($donneesVisiteur['date']),1,'C');
+
+    $PDF->SetY($position);
+    $PDF->SetX(75);
+    $PDF->MultiCell(60,8,($donneesVisiteur['libelle']),1,'C');
+
+    $PDF->SetY($position);
+    $PDF->SetX(135);
+    $PDF->MultiCell(60,8,($donneesVisiteur['montant']." Euros"),1,'C');
+
+    $position += 8;
+    //}
+
     $PDF->Output();
-    $recupNbCommade = $bdd->query("SELECT COUNT(*) AS nbCommade FROM commade WHERE userConnexion = '$user' ;");
-    $resultatNbCommade = $recupNbCommade->fetch();
-    $nbCommade = $resultatNbCommade['nbCommade'];
-    $nbCommade = $nbCommade + 1;
-    $PDF->Output("commande/".$user.$nbCommade.".PDF", "F");
+  
   }
   else {
-    echo "erreur";
+    echo "Erreur de connexion a la base de données";
   }
+
 ?>

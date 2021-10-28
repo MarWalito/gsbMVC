@@ -56,8 +56,8 @@
           }
 		?>
     </table>
-    <form action="./vues/v_pdf.php" method="post">
-      <input type="submit" value="Générer le PDF">
+    <form action="./vues/v_pdfv2.php" method="post">
+      <input type="submit" value="Générer le PDF" name="valide">
     </form>
   </div>
   </div>
