@@ -3,14 +3,16 @@
     // Connexion à la BDD (à personnaliser)
     require_once "../include/fpdf/fpdf.php";
     include "../include/class.pdogsb.inc.php";
+    $bdd = new PDO('mysql:host=localhost;dbname=gsbv2;charset=utf8', 'root', '');
+
 
 
     
 // Si base de données en UTF-8, utiliser la fonction utf8_decode pour tous les champs de texte à afficher
 // extraction des données à afficher dans le sous-titre (nom du voyageur et dates de son voyage)
 
-// Création de la class PDF
-class PDF extends FPDF {
+// Création de la class pdf
+class pdf extends Fpdf {
     // Header
     function Header()
     {
@@ -44,7 +46,7 @@ class PDF extends FPDF {
 
 // On active la classe une fois pour toutes les pages suivantes
 // Format portrait (>P) ou paysage (>L), en mm (ou en points > pts), A4 (ou A5, etc.)
-$pdf = new PDF('P', 'mm', 'A4');
+$pdf = new pdf('P', 'mm', 'A4');
 
 // Nouvelle page A4 (incluant ici logo, titre et pied de page)
 $pdf->AddPage();
@@ -62,23 +64,21 @@ $pdf->setFillColor(230, 230, 230);
 
 // Fonction en-tête des tableaux en 3 colonnes de largeurs variables
 function entete_table($position_entete) {
-    $bdd = new PDO('mysql:host=localhost;dbname=gsbv2;charset=utf8', 'root', '');
-
     global $pdf;
     $pdf->SetDrawColor(183); // Couleur du fond RVB
     $pdf->SetFillColor(221); // Couleur des filets RVB
     $pdf->SetTextColor(0); // Couleur du texte noir
     $pdf->SetY($position_entete);
-    // position de colonne 1 (10mm à gauche)
+    // position de colonne 1 (15mm à gauche)
     $pdf->SetX(15);
-    $pdf->Cell(60, 8, 'Ville', 1, 0, 'C', 1); // 60 >largeur colonne, 8 >hauteur colonne
-    // position de la colonne 2 (70 = 10+60)
+    $pdf->Cell(60, 8, 'Date', 1, 0, 'C', 1); // 60 >largeur colonne, 8 >hauteur colonne
+    // position de colonne 1 (75mm à gauche)
     $pdf->SetX(75);
+    $pdf->Cell(60, 8, 'Libelle', 1, 0, 'C', 1);
+    // position de colonne 1 (135mm à gauche)
 
-    $pdf->Cell(60, 8, 'Pays', 1, 0, 'C', 1);
-    // position de la colonne 3 (130 = 70+60)
     $pdf->SetX(135);
-    $pdf->Cell(60, 8, 'Repas', 1, 0, 'C', 1);
+    $pdf->Cell(60, 8, 'Montant', 1, 0, 'C', 1);
     $pdf->Ln(); // Retour à la ligne
 
     
@@ -92,6 +92,30 @@ function entete_table($position_entete) {
     // on affiche les en-têtes du tableau
     entete_table($position_entete);
 
-// }
-$pdf->Output();
+    $position_detail = 78;
+
+    if($bdd){
+        $user = $_SESSION['idVisiteur'];
+        $requete2 = $bdd->query("SELECT * FROM Visiteur WHERE login = '$user';");
+        while ($donne = $requete2->fetch()) {
+            $idVisiteur = $donne['idVisiteur'];
+            $select = $bdd->query("SELECT * FROM LigneFraisForfait WHERE idVisiteur = '$idVisiteur';");
+            $donneesUser = $select->fetch();
+            $PDF->SetFont("Arial","I",16);
+    
+            $PDF->SetY($position);
+            $PDF->SetX(15);
+            $PDF->MultiCell(60,8,utf8_decode($donneesUser['date']),1,'C');
+    
+            $PDF->SetY($position);
+            $PDF->SetX(75);
+            $PDF->MultiCell(60,8,utf8_decode($donneesUser['libelle']),1,'C');
+    
+            $PDF->SetY($position);
+            $PDF->SetX(135);
+            $PDF->MultiCell(60,8,utf8_decode($donneesUser['montant']."e"),1,'C');
+            $position += 8;
+        }
+        $pdf->Output();
+    }
 ?>

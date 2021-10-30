@@ -32,10 +32,6 @@
     $PDF->SetTextColor(0,0,0);
 
     //foreach ($lesFraisHorsForfait as $donneesVisiteur){
-
-
-
-      
     $mont = $req->fetch();
 
     $id = $mont['id'];
