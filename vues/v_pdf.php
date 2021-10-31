@@ -5,6 +5,7 @@
   $bdd = new PDO('mysql:host=localhost;dbname=gsbv2;charset=utf8', 'root', '');
   if ($bdd) {
     $user = $_SESSION['idVisiteur'];
+
     $PDF = new fPDF();
     $PDF->AddPage();
     // Logo : 8 >position à gauche du document (en mm), 2 >position en haut du document, 80 >largeur de l'image en mm). La hauteur est calculée automatiquement.
@@ -45,37 +46,30 @@
     $PDF->Ln(); // Retour à la ligne
 
     //foreach ($lesFraisHorsForfait as $donneesVisiteur){
+      $requete2 = $bdd->query("SELECT id FROM Visiteur WHERE id = '$user';");
 
-    $req = $bdd->query("SELECT id FROM Visiteur WHERE id = '$user';");
-
-    $mont = $req->fetch();
-
-    $id = $mont['id'];
-    $select = $bdd->query("SELECT * FROM LigneFraisHorsForfait WHERE idVisiteur = '$id';");
-    $donneesVisiteur = $select->fetch();
-
-    $PDF->SetFont("Helvetica", "", 10);
-
-    $PDF->SetY($position);
-    $PDF->SetX(15);
-    $PDF->MultiCell(60,8,($donneesVisiteur['date']),1,'C');
-
-    $PDF->SetY($position);
-    $PDF->SetX(75);
-    $PDF->MultiCell(60,8,($donneesVisiteur['libelle']),1,'C');
-
-    $PDF->SetY($position);
-    $PDF->SetX(135);
-    $PDF->MultiCell(60,8,($donneesVisiteur['montant']." Euros"),1,'C');
-
-    $position += 8;
-    //}
-
-    $PDF->Output();
+      while ($donneesUser = $requete2->fetch()) {
+        $id = $donneesUser['id'];
+        $select = $bdd->query("SELECT * FROM LigneFraisHorsForfait WHERE idVisiteur = '$id';");
+        $donneesUser = $select->fetch();
+        $PDF->SetFont("Helvetica", "", 10);
   
-  }
-  else {
-    echo "Erreur de connexion a la base de données";
-  }
+        $PDF->SetY($position);
+        $PDF->SetX(15);
+        $PDF->MultiCell(60,8,($donneesUser['date']),1,'C');
 
-?>
+        $PDF->SetY($position);
+        $PDF->SetX(75);
+        $PDF->MultiCell(60,8,($donneesUser['libelle']),1,'C');
+
+        $PDF->SetY($position);
+        $PDF->SetX(135);
+        $PDF->MultiCell(60,8,($donneesUser['montant']." Euros"),1,'C');
+        $position += 8;
+      }
+      $PDF->Output();
+    }
+    else {
+      echo "erreur";
+    }
+  ?>
