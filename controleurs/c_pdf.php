@@ -4,6 +4,7 @@
 	}
 	$idVisiteur = $_SESSION['idVisiteur'];
 	$nom = $_SESSION['nom'];
+	$prenom = $_SESSION['prenom'];
 	$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur,$leMois);
 	$lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur,$leMois);
 	$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur,$leMois);
