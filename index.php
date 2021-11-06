@@ -9,7 +9,7 @@ $estConnecte = estConnecte();
 
 if(!isset($_REQUEST['uc']) || !$estConnecte){
      $_REQUEST['uc'] = 'connexion';
-}	 
+}
 $uc = $_REQUEST['uc'];
 switch($uc){
 	case 'connexion':{
@@ -19,9 +19,18 @@ switch($uc){
 		include("controleurs/c_gererFrais.php");break;
 	}
 	case 'etatFrais' :{
-		include("controleurs/c_etatFrais.php");break; 
+		include("controleurs/c_etatFrais.php");break;
+	}
+  case 'validerFrais' :{
+		include("controleurs/c_validerFrais.php");break;
+	}
+	case 'suivrePaiement' :{
+		include("controleurs/c_suivrePaiement.php");break;
+	}
+  case 'pdf' :{
+    $leMois = $_REQUEST['mois'];
+		include("controleurs/c_pdf.php");break;
 	}
 }
 include("vues/v_pied.php") ;
 ?>
-

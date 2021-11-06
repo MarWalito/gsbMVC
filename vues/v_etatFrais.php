@@ -1,5 +1,4 @@
-﻿
-<h3>Fiche de frais du mois <?php echo $numMois."-".$numAnnee?> : 
+﻿<h3>Fiche de frais du mois <?php echo $numMois."-".$numAnnee?> : 
     </h3>
     <div class="encadre">
     <p>
@@ -56,22 +55,8 @@
           }
 		?>
     </table>
-    <form action="./vues/v_pdf.php" method="post">
-      <input type="submit" value="Générer le PDF">
+    <form action="index.php?uc=pdf&mois=<?php echo $leMois; ?>" method="post">
+      <input type="submit" value="Générer le PDF" name="valide">
     </form>
   </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
