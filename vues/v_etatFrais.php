@@ -56,7 +56,9 @@
 		?>
     </table>
     <form action="index.php?uc=pdf&mois=<?php echo $leMois; ?>" method="post">
+    <center>
       <input type="submit" value="Générer le PDF" name="valide">
+    <center>
     </form>
   </div>
   </div>

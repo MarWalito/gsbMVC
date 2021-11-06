@@ -1,35 +1,4 @@
 <?php
-<<<<<<< HEAD
-  session_start();
-  include "../include/fpdf/fpdf.php";
-  include "../include/class.pdogsb.inc.php";
-  $bdd = new PDO('mysql:host=172.16.203.202;dbname=gsbV2;charset=utf8', 'sio', 'slam'); 
-  if($bdd){
-    $user = $_SESSION['idVisiteur'];
-
-    $PDF = new fpdf();
-    $PDF->AddPage();
-    $PDF->SetFont("Arial","B",16);
-    $PDF->SetTextColor(0,0,0);
-    $PDF->MultiCell(0, 25, "Commande du client :\n " . $_SESSION['idVisiteur'], 1, "C", 0);
-
-    $PDF->Image("../images/logo.jpg", 150, 15, 40, 40);
-
-    $position = 120; 
-    $requete2 = $bdd->query("SELECT * FROM Visiteur WHERE login = '$user';");
-
-    $PDF->SetTextColor(0,0,0);
-
-    $PDF->SetY($position-16);
-    $PDF->SetX(75);
-    $PDF->MultiCell(60,8,utf8_decode("Prix Total"),1,'C');
-    $PDF->SetFont("Arial","",16);
-    $PDF->SetY($position-16);
-    $PDF->SetX(135);
-
-    $PDF->SetFont("Arial","B",16);
-    $PDF->SetY($position-8);
-=======
   if (!isset($_SESSION)) {
     session_start();
   }
@@ -141,7 +110,6 @@
 
   foreach ($lesFraisForfait as $unFraisForfait) {
     $PDF->SetY($position);
->>>>>>> gsbEC
     $PDF->SetX(15);
     $PDF->SetFont('Helvetica', 'B', 11);
 
