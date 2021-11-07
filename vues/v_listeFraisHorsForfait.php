@@ -51,8 +51,10 @@
       </div>
       <div class="piedForm">
       <p>
+        <center>
         <input id="ajouter" type="submit" value="Ajouter" size="20" />
         <input id="effacer" type="reset" value="Effacer" size="20" />
+        </center>
       </p> 
       </div>
         
